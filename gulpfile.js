@@ -3,31 +3,37 @@
 
 var buffer = require('buffer'),
     del = require('del'),
+    fs = require('fs'),
     gulp = require('gulp'),
     gulpConcat = require('gulp-concat'),
     gulpJshint = require('gulp-jshint'),
-    gulpUglify = require('gulp-uglify'),
+    minify = require('gulp-babel-minify'),
     jshintStylish = require('jshint-stylish'),
-    map = require('map-stream');
+    replace = require('gulp-replace');
 
-gulp.task('scripts', function () {
-  var header = new Buffer('// Copy this to your URL bar:\njavascript:');
-
-  gulp.src('app/{,*/}*.js')
+gulp.task('scripts', ['clean'], function () {
+  return gulp.src('app/{,*/}*.js')
     .pipe(gulpJshint())
     .pipe(gulpJshint.reporter(jshintStylish))
-    .pipe(gulpUglify())
+    .pipe(minify())
     .pipe(gulpConcat('bookmarklet.js'))
-    .pipe(map(function (file, cb) {
-      file.contents = buffer.Buffer.concat([header, file.contents]);
-      cb(null, file);
-    }))
     .pipe(gulp.dest('dist'));
+});
+
+gulp.task('htmls', ['clean'], function () {
+  return gulp.src('app/*.html')
+    .pipe(gulp.dest('dist'))
 });
 
 gulp.task('clean', del.bind(null, 'dist'));
 
-gulp.task('default', ['clean', 'scripts']);
+gulp.task('default', ['clean', 'scripts', 'htmls'], function () {
+  var contents = fs.readFileSync('dist/bookmarklet.js');
+
+  return gulp.src('dist/index.html')
+    .pipe(replace('{{ bookmarklet }}', contents))
+    .pipe(gulp.dest('dist'));
+});
 
 gulp.task('watch', function () {
   gulp.watch('app/{,*/}*.js', ['scripts']);
