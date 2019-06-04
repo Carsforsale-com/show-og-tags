@@ -1,8 +1,7 @@
 // Generated on 2019-06-04 using generator-bookmarklet 1.2.0
 'use strict';
 
-var buffer = require('buffer'),
-    del = require('del'),
+var del = require('del'),
     fs = require('fs'),
     gulp = require('gulp'),
     gulpConcat = require('gulp-concat'),
