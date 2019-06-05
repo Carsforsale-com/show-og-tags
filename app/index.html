@@ -19,9 +19,15 @@
 
         <p>
             Drag this link to your bookmark bar: 
-            <a href='javascript:{{ bookmarklet }}'>
+            <a href="#" data-bookmarklet>
                 Show Open Graph Tags
             </a>
         </p>
+
+        <script>
+            var scriptToAdd = window.location.href + 'bookmarklet.js';
+            var addScript = 'javascript:(function%20(e){var%20t=document.createElement("script");t.setAttribute("src",e),t.setAttribute("crossorigin","anonymous"),document.body.appendChild(t)}("' + scriptToAdd + '"));'
+            document.querySelector('[data-bookmarklet]').href = addScript;
+        </script>
     </body>
 </html>

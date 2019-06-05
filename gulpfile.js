@@ -1,15 +1,11 @@
-// Generated on 2019-06-04 using generator-bookmarklet 1.2.0
 'use strict';
 
-var buffer = require('buffer'),
-    del = require('del'),
-    fs = require('fs'),
-    gulp = require('gulp'),
-    gulpConcat = require('gulp-concat'),
-    gulpJshint = require('gulp-jshint'),
-    minify = require('gulp-babel-minify'),
-    jshintStylish = require('jshint-stylish'),
-    replace = require('gulp-replace');
+var del = require('del'),
+  gulp = require('gulp'),
+  gulpConcat = require('gulp-concat'),
+  gulpJshint = require('gulp-jshint'),
+  minify = require('gulp-babel-minify'),
+  jshintStylish = require('jshint-stylish');
 
 gulp.task('scripts', ['clean'], function () {
   return gulp.src('app/{,*/}*.js')
@@ -27,13 +23,7 @@ gulp.task('htmls', ['clean'], function () {
 
 gulp.task('clean', del.bind(null, 'dist'));
 
-gulp.task('default', ['clean', 'scripts', 'htmls'], function () {
-  var contents = fs.readFileSync('dist/bookmarklet.js');
-
-  return gulp.src('dist/index.html')
-    .pipe(replace('{{ bookmarklet }}', contents))
-    .pipe(gulp.dest('dist'));
-});
+gulp.task('default', ['clean', 'scripts', 'htmls']);
 
 gulp.task('watch', function () {
   gulp.watch('app/{,*/}*.js', ['scripts']);
