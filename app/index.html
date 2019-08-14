@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Show Open Graph Tags Bookmarklet</title>
+        <meta name="description" content="Show the Open Graph tags being used on a given webpage. - Carsforsale-com/show-og-tags">
         <style>
             html,
             body {
@@ -23,6 +24,15 @@
                 Show Open Graph Tags
             </a>
         </p>
+
+        <button id="addH2">Add H2 Tag</button>
+        <script>
+            document.querySelector('#addH2').addEventListener('click', () => {
+                const h2 = document.createElement('h2');
+                h2.innerHTML = 'A Bookmarklet For Seo';
+                document.body.appendChild(h2);
+            });
+        </script>
 
         <script>
             var scriptToAdd = window.location.href + 'bookmarklet.js';
